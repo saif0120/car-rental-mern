@@ -1,0 +1,187 @@
+/* General Styles */
+.admin-dashboard {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-image: url("https://img.freepik.com/premium-photo/car-with-map-universe-dashboard_916191-384453.jpg");
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: #2c3e50;
+  color: white;
+  padding: 25px;
+}
+
+.sidebar h2 {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 25px;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar nav ul li {
+  padding: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+}
+
+.sidebar nav ul li:hover {
+  background: #34495e;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  padding: 0; /* Remove extra padding */
+  display: none;
+  background: #b80a16; /* Darker red for better contrast */
+  position: absolute;
+  left: 100%; /* Aligns properly next to the dropdown */
+  top: 0;
+  width: 200px; /* Slightly wider for readability */
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  opacity: 0;
+  transform: translateY(10px);
+  z-index: 10;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-menu {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Dropdown Menu Items */
+.dropdown-menu li {
+  padding: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  color: white; /* White text for better visibility */
+  font-weight: 500;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  border-radius: 5px;
+}
+
+/* Hover Effect */
+.dropdown-menu li:hover {
+  background: #d216aa; /* Brighter pink for hover */
+  color: #fff;
+}
+
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background: #ecf0f1;
+  overflow-y: auto;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.profile-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #bdc3c7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Stats Grid - 3 Boxes Per Row */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Always 3 boxes per row */
+  gap: 30px; /* Better spacing */
+  margin-top: 30px;
+  padding: 10px;
+}
+
+/* Stat Card */
+.stat-card {
+  background: white;
+  padding: 35px; /* More padding */
+  text-align: center;
+  border-radius: 12px; /* Softer corners */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.stat-card:hover {
+  transform: scale(1.05); /* Subtle hover effect */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Stat Value */
+.stat-value {
+  font-size: 30px; /* More readable */
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Stat Title */
+.stat-title {
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Colors for Stats */
+.blue {
+  background: linear-gradient(135deg, #2980b9, #3498db); /* Gradient effect */
+  color: white;
+}
+
+.green {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  color: white;
+}
+
+.orange {
+  background: linear-gradient(135deg, #d35400, #e67e22);
+  color: white;
+}

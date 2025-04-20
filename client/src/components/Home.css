@@ -1,0 +1,8 @@
+.car-main-image {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    display: block;
+    margin: 20px auto; /* Center the image */
+  }
+  

@@ -57,13 +57,9 @@ app.get("/check-session", (req, res) => {
   }
 });
 
-
-
-
-
 // ✅ MongoDB Connection (Ensure MongoDB is running)
 mongoose
-  .connect("mongodb://127.0.0.1:27017/car_rental")
+  .connect("mongodb+srv://saif_12:Saifali0atif@cluster0.iq4ams3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => console.log("✅ MongoDB Connected"))
   .catch((err) => console.error("❌ MongoDB Connection Error:", err));
 

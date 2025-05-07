@@ -85,7 +85,9 @@ export default function PostVehicle() {
     title: { fontSize: "24px", fontWeight: "bold", color: "#1f2937", textAlign: "center", marginBottom: "24px" },
     sectionTitle: { fontSize: "18px", fontWeight: "600", color: "#374151", marginBottom: "8px" },
     popupOverlay: { position: "fixed", top: 0, left: 0, width: "100%", height: "100%", background: "rgba(0, 0, 0, 0.5)", display: "flex", justifyContent: "center", alignItems: "center" },
-    popup: { background: "white", padding: "20px", borderRadius: "10px", boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)", textAlign: "center" }
+    popup: { background: "white", padding: "20px", borderRadius: "10px", boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)", textAlign: "center" },
+    imagePreview: { display: "flex", gap: "10px", marginTop: "16px" },
+    image: { width: "100px", height: "100px", objectFit: "cover", borderRadius: "8px" }
   };
 
   return (
@@ -95,30 +97,36 @@ export default function PostVehicle() {
         <h1 style={styles.title}>Post A Vehicle</h1>
         <div style={styles.card}>
           <input type="text" placeholder="Vehicle Title" name="title" value={vehicle.title} onChange={handleChange} style={styles.input} />
-                 <select name="brand" value={vehicle.brand} onChange={handleChange} style={styles.input}>
-                 <option value="">Select Brand</option>
-                 <option value="Toyota">Toyota</option>
-                 <option value="Honda">Honda</option>
-                 <option value="Ford">Ford</option>
-                 <option value="BMW">BMW</option>
-                 <option value="Mercedes">Mercedes</option>
-                 <option value="Audi">Audi</option>
-                 <option value="Chevrolet">Chevrolet</option>
-                 <option value="Hyundai">Hyundai</option>
-                 <option value="Nissan">Nissan</option>
-                 <option value="Tesla">Tesla</option>
-                 <option value="Mahindra">Mahindra</option>
+          <select name="brand" value={vehicle.brand} onChange={handleChange} style={styles.input}>
+            <option value="">Select Brand</option>
+            <option value="Toyota">Toyota</option>
+            <option value="Honda">Honda</option>
+            <option value="Ford">Ford</option>
+            <option value="BMW">BMW</option>
+            <option value="Mercedes">Mercedes</option>
+            <option value="Audi">Audi</option>
+            <option value="Chevrolet">Chevrolet</option>
+            <option value="Hyundai">Hyundai</option>
+            <option value="Nissan">Nissan</option>
+            <option value="Tesla">Tesla</option>
+            <option value="Mahindra">Mahindra</option>
+          </select>
+          <textarea placeholder="Vehicle Overview" name="overview" value={vehicle.overview} onChange={handleChange} style={styles.input} />
+          <input type="text" placeholder="Price Per Day (USD)" name="price" value={vehicle.price} onChange={handleChange} style={styles.input} />
+          <input type="text" placeholder="Model Year" name="modelYear" value={vehicle.modelYear} onChange={handleChange} style={styles.input} />
+          <input type="text" placeholder="Seating Capacity" name="seatingCapacity" value={vehicle.seatingCapacity} onChange={handleChange} style={styles.input} />
+          <input type="text" placeholder="Fuel Type" name="fuelType" value={vehicle.fuelType} onChange={handleChange} style={styles.input} />
 
-                    </select> 
-            <textarea placeholder="Vehicle Overview" name="overview" value={vehicle.overview} onChange={handleChange} style={styles.input} />
-            <input type="text" placeholder="Price Per Day (USD)" name="price" value={vehicle.price} onChange={handleChange} style={styles.input} />
-            <input type="text" placeholder="Model Year" name="modelYear" value={vehicle.modelYear} onChange={handleChange} style={styles.input} />
-            <input type="text" placeholder="Seating Capacity" name="seatingCapacity" value={vehicle.seatingCapacity} onChange={handleChange} style={styles.input} />
-            <input type="text" placeholder="Fuel Type" name="fuelType" value={vehicle.fuelType} onChange={handleChange} style={styles.input} />
-          
           <div style={{ marginBottom: "16px" }}>
             <h2 style={styles.sectionTitle}>Upload Images</h2>
             <input type="file" multiple onChange={handleFileChange} style={{ marginTop: "8px", width: "100%", padding: "8px", border: "1px solid #d1d5db", borderRadius: "8px" }} />
+          </div>
+
+          {/* Display uploaded images */}
+          <div style={styles.imagePreview}>
+            {vehicle.images && Array.from(vehicle.images).map((image, index) => (
+              <img key={index} src={URL.createObjectURL(image)} alt={`preview-${index}`} style={styles.image} />
+            ))}
           </div>
 
           {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}

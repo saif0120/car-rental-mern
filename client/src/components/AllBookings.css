@@ -1,0 +1,124 @@
+.admin-layout {
+    display: flex;
+    background-color: #f2f4f8;
+    min-height: 100vh;
+  }
+  
+  .admin-content {
+    flex: 1;
+    padding: 30px;
+    font-family: "Segoe UI", sans-serif;
+  }
+  
+  .bookings-background {
+    background: url("https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?auto=format&fit=crop&w=1600&q=80") no-repeat center center;
+    background-size: cover;
+    padding: 30px;
+    min-height: 100vh;
+  }
+  
+  .bookings-heading {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px #000;
+  }
+  
+    .bookings-container {
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        max-width: 800px;
+        margin: auto;
+    }
+  
+  .bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .bookings-table th,
+  .bookings-table td {
+    padding: 12px 15px;
+    text-align: left;
+  }
+  
+  .bookings-table th {
+    background-color: #1e293b;
+    color: #fff;
+  }
+  
+  .bookings-table td {
+    border-bottom: 1px solid #ccc;
+    background-color: #fff;
+    vertical-align: middle;
+  }
+  
+  .car-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .car-info img {
+    width: 60px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .status-badge {
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+  
+  .status-badge.pending {
+    background-color: #facc15;
+    color: #92400e;
+  }
+  
+  .status-badge.confirmed {
+    background-color: #4ade80;
+    color: #065f46;
+  }
+  
+  .status-badge.cancelled {
+    background-color: #f87171;
+    color: #7f1d1d;
+  }
+  
+  .btn {
+    padding: 6px 12px;
+    margin-right: 8px;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .btn.confirm {
+    background-color: #16a34a;
+  }
+  
+  .btn.cancel {
+    background-color: #dc2626;
+  }
+  
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .no-bookings {
+    color: white;
+    font-size: 18px;
+    text-align: center;
+  }
+  

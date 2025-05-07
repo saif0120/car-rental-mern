@@ -3,61 +3,82 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Sidebar from "./Sidebar";
 
-
 const styles = {
   container: {
     display: "flex",
     height: "100vh",
-    
-  },
-  sidebar: {
-    width: "250px",
-    background: "#333",
-    color: "white",
-    padding: "20px",
+    backgroundColor: "#f4f6f9",
+    fontFamily: "Segoe UI, sans-serif",
   },
   mainContent: {
     flex: 1,
-    padding: "20px",
+    padding: "30px",
+  },
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  heading: {
+    fontSize: "28px",
+    color: "#333",
+    marginBottom: "20px",
+  },
+  addButton: {
+    background: "#007bff",
+    color: "#fff",
+    padding: "10px 18px",
+    border: "none",
+    borderRadius: "6px",
+    fontSize: "16px",
+    cursor: "pointer",
+    transition: "background 0.3s ease",
+  },
+  addButtonHover: {
+    background: "#0056b3",
   },
   table: {
     width: "100%",
     borderCollapse: "collapse",
-    marginTop: "20px",
+    background: "#fff",
+    borderRadius: "10px",
+    overflow: "hidden",
+    boxShadow: "0 0 10px rgba(0,0,0,0.05)",
   },
   th: {
-    background: "#444",
-    color: "white",
-    padding: "10px",
+    background: "#343a40",
+    color: "#fff",
+    padding: "12px 16px",
     textAlign: "left",
+    fontWeight: "600",
+    fontSize: "16px",
   },
   td: {
-    padding: "10px",
-    borderBottom: "1px solid #ddd",
+    padding: "12px 16px",
+    borderBottom: "1px solid #e0e0e0",
+    fontSize: "15px",
+    color: "#333",
   },
-  button: {
-    padding: "8px 12px",
-    border: "none",
+  trHover: {
+    backgroundColor: "#f9f9f9",
     cursor: "pointer",
-    margin: "0 5px",
   },
   deleteButton: {
-    background: "red",
+    background: "#dc3545",
     color: "white",
-  },
-  addButton: {
-    background: "green",
-    color: "white",
-    padding: "10px",
-    marginTop: "10px",
-    display: "inline-block",
+    padding: "8px 14px",
+    border: "none",
+    borderRadius: "5px",
     cursor: "pointer",
+    fontWeight: "bold",
+    transition: "background 0.3s ease",
   },
 };
 
 const ManageBrands = () => {
   const navigate = useNavigate();
   const [brands, setBrands] = useState([]);
+  const [hoverRow, setHoverRow] = useState(null);
 
   useEffect(() => {
     fetchBrands();
@@ -85,27 +106,20 @@ const ManageBrands = () => {
 
   return (
     <div style={styles.container}>
-      <Sidebar/>
-      {/* <aside style={styles.sidebar}> */}
-        {/* <h2>Admin Panel</h2>
-        <nav>
-          <ul>
-            <li onClick={() => navigate("/admindashboard")}>Dashboard</li>
-            <li onClick={() => navigate("/postvehicle")}>Post New Vehicle</li>
-          </ul>
-        </nav>
-      </aside> */}
-
-      {/* Main Content */}
+      <Sidebar />
       <main style={styles.mainContent}>
-        <h1>Manage Brands</h1>
+        <div style={styles.header}>
+          <h1 style={styles.heading}>Manage Brands</h1>
+          <button
+            style={styles.addButton}
+            onClick={() => navigate("/add-brand")}
+            onMouseOver={(e) => (e.target.style.background = "#0056b3")}
+            onMouseOut={(e) => (e.target.style.background = "#007bff")}
+          >
+            ➕ Add Brand
+          </button>
+        </div>
 
-        {/* Add Brand Button
-        <button style={{ ...styles.button, ...styles.addButton }} onClick={() => navigate("/add-brand")}>
-          ➕ Add New Brand
-        </button> */}
-
-        {/* Brands Table */}
         <table style={styles.table}>
           <thead>
             <tr>
@@ -116,13 +130,20 @@ const ManageBrands = () => {
           </thead>
           <tbody>
             {brands.map((brand, index) => (
-              <tr key={brand._id}>
+              <tr
+                key={brand._id}
+                style={hoverRow === index ? styles.trHover : {}}
+                onMouseEnter={() => setHoverRow(index)}
+                onMouseLeave={() => setHoverRow(null)}
+              >
                 <td style={styles.td}>{index + 1}</td>
                 <td style={styles.td}>{brand.name}</td>
                 <td style={styles.td}>
                   <button
-                    style={{ ...styles.button, ...styles.deleteButton }}
+                    style={styles.deleteButton}
                     onClick={() => handleDelete(brand._id)}
+                    onMouseOver={(e) => (e.target.style.background = "#c82333")}
+                    onMouseOut={(e) => (e.target.style.background = "#dc3545")}
                   >
                     ❌ Delete
                   </button>

@@ -1,187 +1,213 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FaFacebook, FaInstagram, FaTwitter, FaPhone, FaEnvelope } from "react-icons/fa";
-import Header from "./Header"; // Importing Header component
+import Header from "./Header";
 import Footer from "./Footer";
 
-
-const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-
-  const [submitted, setSubmitted] = useState(false);
-  const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
-  };
-
-  const styles = {
-    container: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "100vh",
-      backgroundImage: "url('/car orange.webp')",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      color: "#fff",
-      paddingTop: "80px", // Added padding to avoid overlap with the header
-    },
-    formWrapper: {
-      background: "rgba(255, 255, 255, 0.9)",
-      padding: "30px",
-      borderRadius: "10px",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-      maxWidth: "400px",
-      width: "100%",
-      textAlign: "center",
-      color: "#333",
-    },
-    heading: {
-      fontSize: "24px",
-      marginBottom: "15px",
-    },
-    input: {
-      width: "100%",
-      padding: "10px",
-      margin: "8px 0",
-      borderRadius: "5px",
-      border: "1px solid #ddd",
-      fontSize: "16px",
-    },
-    button: {
-      width: "100%",
-      padding: "10px",
-      marginTop: "10px",
-      background: "#007bff",
-      color: "white",
-      border: "none",
-      fontSize: "18px",
-      cursor: "pointer",
-      borderRadius: "5px",
-      transition: "0.3s",
-    },
-    buttonHover: {
-      backgroundColor: "#0056b3",
-    },
-    successMessage: {
-      color: "green",
-      marginTop: "10px",
-      fontSize: "16px",
-    },
-    contactInfo: {
-      textAlign: "center",
-      marginTop: "20px",
-    },
-    contactItem: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "10px",
-      fontSize: "16px",
-      margin: "5px 0",
-    },
-    socialIcons: {
-      display: "flex",
-      justifyContent: "center",
-      gap: "15px",
-      fontSize: "24px",
-      marginTop: "10px",
-    },
-    icon: {
-      color: "#007bff",
-      cursor: "pointer",
-      transition: "0.3s",
-    },
-  };
+const ContactUs = () => {
+  const [darkMode, setDarkMode] = useState(false);
+  const toggleDarkMode = () => setDarkMode(!darkMode);
 
   return (
     <>
-      <Header /> {/* Adding Header Component */}
-
-      
-      <div style={styles.container}>
-        <div style={styles.formWrapper}>
-          <h2 style={styles.heading}>Contact Us</h2>
-          {submitted && <p style={styles.successMessage}>Message sent successfully!</p>}
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="name"
-              placeholder="Your Name"
-              style={styles.input}
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="email"
-              name="email"
-              placeholder="Your Email"
-              style={styles.input}
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            <textarea
-              name="message"
-              placeholder="Your Message"
-              style={{ ...styles.input, height: "100px" }}
-              value={formData.message}
-              onChange={handleChange}
-              required
-            ></textarea>
-            <button type="submit" style={styles.button}>Send Message</button>
-          </form>
-
-          <div style={styles.contactInfo}>
-            <h3>Get in Touch</h3>
-            <p style={styles.contactItem}>
-              <FaPhone /> +1 234 567 890
-            </p>
-            <p style={styles.contactItem}>
-              <FaEnvelope /> contact@carrental.com
-            </p>
-            <div style={styles.socialIcons}>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-                <FaFacebook style={styles.icon} />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-                <FaInstagram style={styles.icon} />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                <FaTwitter style={styles.icon} />
-              </a>
-            </div>
-          </div>
-
-          {/* Back to Home Button */}
+      <Header />
+      <div style={darkMode ? styles.darkContainer : styles.container}>
+        {/* Header Section */}
+        <div style={styles.headerSection}>
+          <h1 style={styles.heading}>Contact Us</h1>
           <button
-            style={styles.button}
-            onMouseOver={(e) => (e.target.style.backgroundColor = styles.buttonHover.backgroundColor)}
-            onMouseOut={(e) => (e.target.style.backgroundColor = styles.button.backgroundColor)}
-            onClick={() => navigate("/")}
+            onClick={toggleDarkMode}
+            style={{
+              ...styles.toggleBtn,
+              background: darkMode ? "#ffcc00" : "#007bff",
+              color: darkMode ? "#222" : "#fff",
+            }}
           >
-            Back to Home
+            {darkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
           </button>
         </div>
-      </div>
-      <Footer /> {/* Adding Header Component */}
 
+        {/* Contact Content */}
+        <div style={styles.content}>
+          <h2 style={styles.subHeading}>Get in Touch</h2>
+          <p style={styles.description}>
+            Have questions? We’d love to hear from you!
+          </p>
+
+          {/* Contact Details */}
+          <div style={darkMode ? styles.darkContactInfo : styles.contactInfo}>
+            <p>📍 <strong>Address:</strong> 123 Main Street, New York, USA</p>
+            <p>📧 <strong>Email:</strong> <a href="mailto:saifali0atif@gmail.com" style={styles.link}>saifali0atif@gmail.com</a></p>
+            <p>📞 <strong>Phone:</strong> <a href="tel:+9355653309" style={styles.link}>+9355653309</a></p>
+          </div>
+
+          {/* Social Links */}
+          <h2 style={styles.subHeading}>Follow Us</h2>
+          <div style={styles.socialLinks}>
+            <a href="#" style={styles.socialLink}>📘 Facebook</a>
+            <a href="#" style={styles.socialLink}>📸 Instagram</a>
+            <a href="#" style={styles.socialLink}>🟢 WhatsApp</a>
+          </div>
+
+          {/* Contact Form */}
+          <h2 style={styles.subHeading}>Send a Message</h2>
+          <form style={darkMode ? styles.darkForm : styles.form}>
+            <input type="text" placeholder="Your Name" style={styles.input} required />
+            <input type="email" placeholder="Your Email" style={styles.input} required />
+            <textarea placeholder="Your Message" style={styles.textarea} required></textarea>
+            <button type="submit" style={styles.submitBtn}>Send Message</button>
+          </form>
+        </div>
+      </div>
+      <Footer />
     </>
   );
 };
 
-export default Contact;
+/* Styles */
+const styles = {
+  container: {
+    textAlign: "center",
+    padding: "50px",
+    backgroundColor: "#f9f9f9",
+    color: "#333",
+    minHeight: "100vh",
+    transition: "background 0.3s ease",
+  },
+  darkContainer: {
+    textAlign: "center",
+    padding: "50px",
+    backgroundColor: "#121212",
+    color: "#fff",
+    minHeight: "100vh",
+    transition: "background 0.3s ease",
+  },
+  headerSection: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    maxWidth: "800px",
+    margin: "auto",
+    paddingBottom: "20px",
+    borderBottom: "2px solid #007bff",
+  },
+  heading: {
+    fontSize: "2.5rem",
+    fontWeight: "bold",
+    margin: 0,
+  },
+  toggleBtn: {
+    padding: "10px 20px",
+    border: "none",
+    cursor: "pointer",
+    borderRadius: "5px",
+    fontSize: "1rem",
+    transition: "0.3s ease",
+  },
+  content: {
+    maxWidth: "600px",
+    margin: "auto",
+    textAlign: "left",
+    paddingTop: "20px",
+  },
+  subHeading: {
+    fontSize: "1.8rem",
+    fontWeight: "600",
+    marginBottom: "10px",
+    borderBottom: "2px solid #007bff",
+    display: "inline-block",
+    paddingBottom: "5px",
+  },
+  description: {
+    fontSize: "1.1rem",
+    marginBottom: "20px",
+    lineHeight: "1.6",
+  },
+  contactInfo: {
+    fontSize: "1.1rem",
+    lineHeight: "1.6",
+    marginBottom: "30px",
+    backgroundColor: "#fff",
+    padding: "15px",
+    borderRadius: "8px",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+  },
+  darkContactInfo: {
+    fontSize: "1.1rem",
+    lineHeight: "1.6",
+    marginBottom: "30px",
+    backgroundColor: "#333",
+    padding: "15px",
+    borderRadius: "8px",
+    boxShadow: "0px 4px 10px rgba(255, 255, 255, 0.1)",
+  },
+  link: {
+    color: "#007bff",
+    textDecoration: "none",
+    fontWeight: "bold",
+    transition: "color 0.3s ease",
+  },
+  socialLinks: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "20px",
+    marginBottom: "30px",
+  },
+  socialLink: {
+    textDecoration: "none",
+    color: "#fff",
+    backgroundColor: "#007bff",
+    padding: "10px 15px",
+    borderRadius: "5px",
+    fontWeight: "bold",
+    transition: "0.3s ease",
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "15px",
+    marginTop: "20px",
+    padding: "20px",
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+  },
+  darkForm: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "15px",
+    marginTop: "20px",
+    padding: "20px",
+    backgroundColor: "#222",
+    borderRadius: "8px",
+    boxShadow: "0px 4px 10px rgba(255, 255, 255, 0.1)",
+  },
+  input: {
+    padding: "12px",
+    fontSize: "1rem",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    outline: "none",
+    transition: "border 0.3s ease",
+  },
+  textarea: {
+    padding: "12px",
+    fontSize: "1rem",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    outline: "none",
+    height: "120px",
+    transition: "border 0.3s ease",
+  },
+  submitBtn: {
+    padding: "12px",
+    border: "none",
+    background: "#007bff",
+    color: "white",
+    cursor: "pointer",
+    borderRadius: "5px",
+    fontSize: "1.2rem",
+    fontWeight: "bold",
+    transition: "0.3s ease",
+  },
+};
 
+export default ContactUs;

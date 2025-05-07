@@ -7,46 +7,79 @@ const styles = {
   container: {
     display: "flex",
     height: "100vh",
+    backgroundImage: "url('https://images.unsplash.com/photo-1503736334956-4c8f8e92946d')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    fontFamily: "'Segoe UI', sans-serif",
   },
   mainContent: {
     flex: 1,
-    padding: "20px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    backdropFilter: "blur(6px)",
+    padding: "30px",
   },
   formContainer: {
-    background: "#f9f9f9",
-    padding: "20px",
-    borderRadius: "8px",
+    background: "rgba(255, 255, 255, 0.15)",
+    border: "1px solid rgba(255, 255, 255, 0.25)",
+    borderRadius: "16px",
+    padding: "30px",
     width: "400px",
-    boxShadow: "0px 0px 10px rgba(0,0,0,0.1)",
+    boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+    color: "#fff",
+  },
+  heading: {
+    fontSize: "28px",
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: "20px",
+    color: "#ffffff",
+    textShadow: "1px 1px 3px rgba(0,0,0,0.6)",
+  },
+  label: {
+    display: "block",
+    marginBottom: "8px",
+    fontWeight: "500",
+    fontSize: "16px",
   },
   input: {
     width: "100%",
-    padding: "10px",
-    margin: "10px 0",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
+    padding: "12px",
+    marginBottom: "15px",
+    borderRadius: "10px",
+    border: "none",
     fontSize: "16px",
+    background: "rgba(255,255,255,0.8)",
+    outline: "none",
+    color: "black",
   },
   button: {
-    background: "green",
+    background: "#10b981",
     color: "white",
-    padding: "10px 15px",
+    padding: "12px",
     border: "none",
-    borderRadius: "4px",
+    borderRadius: "10px",
     cursor: "pointer",
     fontSize: "16px",
-    marginTop: "10px",
     width: "100%",
+    transition: "background 0.3s",
+  },
+  buttonHover: {
+    background: "#059669",
   },
   error: {
-    color: "red",
+    color: "#ff4d4f",
     fontSize: "14px",
+    marginBottom: "10px",
   },
 };
 
 const AddBrand = () => {
   const [brandName, setBrandName] = useState("");
   const [error, setError] = useState("");
+  const [hover, setHover] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -58,7 +91,7 @@ const AddBrand = () => {
 
     try {
       await axios.post("http://localhost:3200/api/brands", { name: brandName });
-      navigate("/brands"); // Redirect to Manage Brands Page
+      navigate("/brands");
     } catch (error) {
       console.error("Error adding brand:", error);
       setError("Failed to add brand!");
@@ -69,19 +102,24 @@ const AddBrand = () => {
     <div style={styles.container}>
       <Sidebar />
       <main style={styles.mainContent}>
-        <h1>Add New Brand</h1>
         <div style={styles.formContainer}>
+          <h1 style={styles.heading}>Add New Brand</h1>
           <form onSubmit={handleSubmit}>
-            <label>Brand Name:</label>
+            <label style={styles.label}>Brand Name</label>
             <input
               type="text"
               style={styles.input}
               value={brandName}
               onChange={(e) => setBrandName(e.target.value)}
-              placeholder="Enter brand name"
+              placeholder="e.g., Toyota, Ford"
             />
             {error && <p style={styles.error}>{error}</p>}
-            <button type="submit" style={styles.button}>
+            <button
+              type="submit"
+              style={hover ? { ...styles.button, ...styles.buttonHover } : styles.button}
+              onMouseEnter={() => setHover(true)}
+              onMouseLeave={() => setHover(false)}
+            >
               ➕ Add Brand
             </button>
           </form>

@@ -25,6 +25,7 @@ import MyTestimonials from "./components/MyTestimonials";
 import RegisterUsers from "./components/RegisterUsers ";
 import CarPaymentPage from "./components/CarPaymentPage ";
 import ProcessPaymentPage from "./components/ProcessPaymentPage ";
+import EditVehicle from "./components/EditVehicle";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/admindashboard" element={<AdminDashboard />} />
         <Route path="/postvehicle" element={<PostVehicle />} />
         <Route path="/vehicles" element={<ManageVehicles />} />
+        <Route path="/editvehicle/:id" element={<EditVehicle />} />
         <Route path="/brands" element={<ManageBrands/>} />
         <Route path="/add-brand" element={<AddBrand/>} />
         <Route path="/bookings" element={<AllBookings/>} />

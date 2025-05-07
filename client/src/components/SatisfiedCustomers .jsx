@@ -172,41 +172,49 @@ const SatisfiedCustomers = () => {
     }, []);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex(prevIndex =>
-                (prevIndex + 1) % testimonials.length
-            );
-        }, 4000);
-        return () => clearInterval(interval);
+        if (testimonials.length > 0) {
+            const interval = setInterval(() => {
+                setCurrentIndex(prevIndex => (prevIndex + 1) % testimonials.length);
+            }, 4000);
+            return () => clearInterval(interval);
+        }
     }, [testimonials]);
 
     return (
         <div style={styles.wrapper}>
             <div style={styles.overlay}></div>
-
             <div style={styles.container}>
                 <h2 style={styles.title}>
                     Our <span style={{ color: "#fff" }}>Satisfied</span> Customers
                 </h2>
 
                 {loading ? (
-                    <p style={{ color: '#fff' }}>Loading testimonials...</p>
+                    <p style={styles.loadingText}>Loading testimonials...</p>
                 ) : testimonials.length > 0 ? (
                     <div style={styles.slider}>
                         <div style={styles.card}>
-                            <div style={styles.iconWrapper}>
-                                <img
-                                    src="https://cdn4.vectorstock.com/i/1000x1000/72/93/online-testimonial-logo-icon-design-vector-22947293.jpg"
-                                    alt="user"
-                                    style={styles.icon}
-                                />
+                            <div style={styles.photoWrapper}>
+                            <img
+  src={
+    testimonials[currentIndex]?.user?.photo ||
+    `https://api.dicebear.com/7.x/avataaars/svg?seed=${testimonials[currentIndex]?.user?.name || "User"}`
+  }
+  alt="user"
+  style={styles.photo}
+/>
+
+
                             </div>
-                            <h3 style={styles.name}>{testimonials[currentIndex]?.user?.name || 'Anonymous'}</h3>
-                            <p style={styles.message}>{testimonials[currentIndex]?.testimonial}</p>
+                            <h3 style={styles.name}>
+                                {testimonials[currentIndex]?.user?.name || 'Anonymous'}
+                            </h3>
+                            <p style={styles.message}>
+                                “{testimonials[currentIndex]?.testimonial}”
+                            </p>
                         </div>
                     </div>
                 ) : (
-                    <p style={{ color: '#fff' }}>No testimonials available.</p>
+                    <p style={styles.loadingText}>No testimonials available.</p>
                 )}
             </div>
         </div>
@@ -216,12 +224,13 @@ const SatisfiedCustomers = () => {
 const styles = {
     wrapper: {
         position: 'relative',
-        backgroundImage: 'url("https://wallpaperaccess.com/full/3848326.jpg")',
+        backgroundImage: 'url("https://images.pexels.com/photos/3264504/pexels-photo-3264504.jpeg?auto=compress&cs=tinysrgb&w=600")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         padding: '100px 20px',
         color: 'white',
         zIndex: 1,
+        overflow: 'hidden'
     },
     overlay: {
         position: 'absolute',
@@ -233,7 +242,7 @@ const styles = {
         position: 'relative',
         zIndex: 3,
         textAlign: 'center',
-        maxWidth: '800px',
+        maxWidth: '900px',
         margin: '0 auto'
     },
     title: {
@@ -242,44 +251,55 @@ const styles = {
         marginBottom: '40px',
         color: '#ccc'
     },
+    loadingText: {
+        color: '#fff',
+        fontSize: '16px'
+    },
     slider: {
         transition: 'all 0.5s ease-in-out',
     },
     card: {
-        background: 'rgba(255, 255, 255, 0.2)',
-        borderRadius: '15px',
-        padding: '20px',
-        boxShadow: '0 4px 10px rgba(0,0,0,0.2)',
+        background: 'rgba(255, 255, 255, 0.15)',
+        borderRadius: '20px',
+        padding: '40px 30px',
+        boxShadow: '0 8px 20px rgba(0,0,0,0.3)',
         textAlign: 'center',
-        backdropFilter: 'blur(10px)',
+        backdropFilter: 'blur(20px)',
         height: '100%',
-        maxWidth: '500px',
-        margin: '0 auto'
+        maxWidth: '600px',
+        margin: '0 auto',
+        color: '#fff',
+        transition: 'transform 0.5s ease',
     },
-    iconWrapper: {
-        width: '80px',
-        height: '80px',
-        margin: '0 auto 15px',
-        background: '#004aad',
+    photoWrapper: {
+        width: '100px',
+        height: '100px',
+        margin: '0 auto 20px',
         borderRadius: '50%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+        overflow: 'hidden',
+        border: '3px solid #fff',
+        boxShadow: '0 0 10px rgba(0,0,0,0.4)',
     },
-    icon: {
-        width: '40px',
-        height: '40px',
-        filter: 'invert(100%)'
-    },
+    photo: {
+        width: "80px",
+        height: "80px",
+        borderRadius: "50%",
+        objectFit: "cover",
+        border: "10px solid #007BFF",
+        boxShadow: "0 4px 12px rgba(0, 123, 255, 0.3)",
+        backgroundColor: "#fff",
+      },
     name: {
-        fontSize: '18px',
-        fontWeight: 'bold',
-        marginBottom: '10px',
+        fontSize: '22px',
+        fontWeight: '600',
+        marginBottom: '15px',
         color: '#fff'
     },
     message: {
-        fontSize: '14px',
-        color: '#eee'
+        fontSize: '16px',
+        color: '#eee',
+        fontStyle: 'italic',
+        lineHeight: '1.6'
     }
 };
 

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Lottie from "lottie-react";
+import carAnimation from "../assets/car-animation.json";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "./Header";
@@ -13,9 +15,22 @@ const Car = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:3200/api/car").then((res) => setCars(res.data));
-    axios.get("http://localhost:3200/api/brands").then((res) => setBrands(res.data));
-    axios.get("http://localhost:3200/api/fuelTypes").then((res) => setFuelTypes(res.data));
+    const fetchData = async () => {
+      try {
+        const [carRes, brandRes, fuelRes] = await Promise.all([
+          axios.get("http://localhost:3200/api/car"),
+          axios.get("http://localhost:3200/api/brands"),
+          axios.get("http://localhost:3200/api/fuelTypes"),
+        ]);
+        setCars(carRes.data);
+        setBrands(brandRes.data);
+        setFuelTypes(fuelRes.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const filteredCars = cars.filter(
@@ -28,50 +43,67 @@ const Car = () => {
     <>
       <Header />
 
-      {/* Banner Section */}
+      {/* Banner */}
       <div style={styles.banner}>
-        <h2>Explore Our Car Rentals</h2>
-        <p>Home &gt; Cars</p>
+        <div style={styles.bannerContent}>
+          <div style={styles.textContainer}>
+            <h2 style={styles.bannerTitle}>Explore Our Car Rentals</h2>
+            <p style={styles.breadcrumb}>Home &gt; Cars</p>
+          </div>
+          <div style={styles.animationContainer}>
+            <Lottie animationData={carAnimation} loop />
+          </div>
+        </div>
       </div>
 
+      {/* Main Container */}
       <div style={styles.container}>
         {/* Sidebar */}
         <div style={styles.sidebar}>
           <h2 style={styles.sidebarTitle}>Find Your Car</h2>
+
           <select
             style={styles.select}
+            value={selectedBrand}
             onChange={(e) => setSelectedBrand(e.target.value)}
           >
             <option value="">Select Brand</option>
             {brands.map((brand) => (
-              <option key={brand._id} value={brand.name}>{brand.name}</option>
+              <option key={brand._id} value={brand.name}>
+                {brand.name}
+              </option>
             ))}
           </select>
 
           <select
             style={styles.select}
+            value={selectedFuel}
             onChange={(e) => setSelectedFuel(e.target.value)}
           >
             <option value="">Select Fuel Type</option>
             {fuelTypes.map((fuel, index) => (
-              <option key={index} value={fuel}>{fuel}</option>
+              <option key={index} value={fuel}>
+                {fuel}
+              </option>
             ))}
           </select>
 
-          <button style={styles.searchButton}>Search Car</button>
-
           {/* Recently Listed Cars */}
           <div style={styles.recentCars}>
-            <h3 style={styles.recentTitle}>🚗 Recently Listed Cars</h3>
+            <h3 style={styles.recentTitle}>Recently Listed Cars</h3>
             {cars.slice(0, 4).map((car) => (
               <div key={car._id} style={styles.recentCarItem}>
                 <img
-                  src={`http://localhost:3200${car.images[0].startsWith("/") ? "" : "/"}${car.images[0]}`}
-                  alt={car.title}
+                  src={
+                    car.images?.[0]
+                      ? `http://localhost:3200${car.images[0].startsWith("/") ? "" : "/"}${car.images[0]}`
+                      : "https://via.placeholder.com/200x120?text=No+Image"
+                  }
+                  alt={car.title || "Car"}
                   style={styles.recentCarImage}
                 />
                 <div>
-                  <h4 style={styles.recentCarTitle}>{car.brand} , {car.title}</h4>
+                  <h4 style={styles.recentCarTitle}>{car.brand}, {car.title}</h4>
                   <p style={styles.recentCarPrice}>${car.price} Per Day</p>
                 </div>
               </div>
@@ -84,16 +116,20 @@ const Car = () => {
           {filteredCars.map((car) => (
             <div key={car._id} style={styles.carCard}>
               <img
-                src={`http://localhost:3200${car.images[0].startsWith("/") ? "" : "/"}${car.images[0]}`}
+                src={
+                  car.images?.[0]
+                    ? `http://localhost:3200${car.images[0].startsWith("/") ? "" : "/"}${car.images[0]}`
+                    : "https://via.placeholder.com/200x120?text=No+Image"
+                }
                 alt={car.title}
                 style={styles.carImage}
               />
               <h3 style={styles.carTitle}>{car.title}</h3>
               <p style={styles.carPrice}>${car.price} Per Day</p>
               <div style={styles.carDetails}>
-                <span>🚗 {car.fuelType}</span>
-                <span>📅 {car.modelYear} Model</span>
-                <span>🪑 {car.seatingCapacity} Seats</span>
+                <span> {car.fuelType}</span>
+                <span>📅 {car.modelYear}</span>
+                <span> {car.seatingCapacity} Seats</span>
               </div>
               <button
                 style={styles.viewButton}
@@ -111,70 +147,84 @@ const Car = () => {
   );
 };
 
-// Styling Object
+// Styles (unchanged, but grouped cleanly)
 const styles = {
   banner: {
     width: "100%",
-    textAlign: "center",
-    padding: "50px 20px",
+    background: "linear-gradient(to right, #007BFF, #0056b3)",
+    padding: "40px 20px",
     color: "white",
-    backgroundImage: "url('https://4kwallpapers.com/images/walls/thumbs_2t/1003.jpg')",
-    backgroundSize: "cover",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
+  bannerContent: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    maxWidth: "1200px",
+    width: "100%",
+    gap: "30px",
+  },
+  textContainer: { flex: 1 },
+  bannerTitle: { fontSize: "36px", fontWeight: "bold", marginBottom: "10px" },
+  breadcrumb: { fontSize: "16px", color: "#e0e0e0" },
+  animationContainer: { flex: 1, maxWidth: "400px" },
+
   container: {
     maxWidth: "1200px",
     margin: "auto",
-    padding: "20px",
+    padding: "30px 20px",
     display: "grid",
     gridTemplateColumns: "1fr 3fr",
-    gap: "20px",
+    gap: "30px",
   },
+
   sidebar: {
-    background: "#f3f3f3",
-    padding: "20px",
-    borderRadius: "10px",
+    background: "#E0EFFF",
+    padding: "25px",
+    borderRadius: "15px",
+    color: "#0F172A",
+    boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
   },
   sidebarTitle: {
-    fontSize: "20px",
-    fontWeight: "bold",
-    marginBottom: "15px",
+    fontSize: "22px",
+    fontWeight: "600",
+    marginBottom: "20px",
+    color: "#007BFF",
   },
   select: {
     width: "100%",
-    padding: "10px",
-    marginBottom: "10px",
-    border: "1px solid #ccc",
-    borderRadius: "5px",
-  },
-  searchButton: {
-    width: "100%",
-    background: "#e60000",
-    color: "#fff",
-    padding: "10px",
-    borderRadius: "5px",
-    border: "none",
-    cursor: "pointer",
-  },
-  recentCars: {
-    marginTop: "20px",
-    padding: "15px",
+    padding: "12px",
+    marginBottom: "15px",
+    border: "1px solid #cbd5e1",
+    borderRadius: "8px",
     background: "#fff",
+    color: "#0F172A",
+  },
+
+  recentCars: {
+    marginTop: "30px",
+    padding: "20px",
+    background: "#f1f5f9",
     borderRadius: "10px",
-    boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
   },
   recentTitle: {
     fontSize: "18px",
-    fontWeight: "bold",
+    fontWeight: "600",
     marginBottom: "15px",
+    color: "#007BFF",
   },
   recentCarItem: {
     display: "flex",
     alignItems: "center",
     gap: "10px",
     marginBottom: "15px",
+    background: "#fff",
     padding: "10px",
     borderRadius: "8px",
-    background: "#f8f8f8",
+    border: "1px solid #e2e8f0",
   },
   recentCarImage: {
     width: "60px",
@@ -185,53 +235,60 @@ const styles = {
   recentCarTitle: {
     fontSize: "14px",
     fontWeight: "bold",
+    color: "#0F172A",
   },
   recentCarPrice: {
-    fontSize: "12px",
-    color: "#777",
+    fontSize: "13px",
+    color: "#64748b",
   },
+
   carList: {
     display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
-    gap: "20px",
+    gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+    gap: "25px",
   },
   carCard: {
-    border: "1px solid #ddd",
+    background: "#ffffff",
     padding: "20px",
-    borderRadius: "10px",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+    borderRadius: "15px",
+    transition: "transform 0.3s, box-shadow 0.3s",
+    boxShadow: "0 6px 20px rgba(0,0,0,0.05)",
   },
   carImage: {
     width: "100%",
-    height: "200px",
+    height: "180px",
     objectFit: "cover",
     borderRadius: "10px",
   },
   carTitle: {
-    fontSize: "18px",
-    fontWeight: "bold",
+    fontSize: "20px",
+    fontWeight: "600",
     marginTop: "10px",
+    color: "#0F172A",
   },
   carPrice: {
-    color: "#e60000",
-    fontWeight: "bold",
+    color: "#007BFF",
+    fontWeight: "600",
+    fontSize: "16px",
   },
   carDetails: {
     display: "flex",
     justifyContent: "space-between",
     fontSize: "14px",
-    color: "#666",
+    color: "#475569",
     marginTop: "10px",
   },
   viewButton: {
     width: "100%",
-    background: "#e60000",
+    background: "#007BFF",
     color: "#fff",
-    padding: "10px",
-    borderRadius: "5px",
+    padding: "12px",
+    borderRadius: "8px",
     border: "none",
     cursor: "pointer",
     marginTop: "15px",
+    fontWeight: "bold",
+    transition: "background 0.3s ease",
   },
 };
 

@@ -1,344 +1,212 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Header from "./Header"; // Importing Header component
-import Footer from "./Footer"; // Importing Footer component
+import Header from "./Header";
+import Footer from "./Footer";
 
-const FAQ = () => {
-  const [openIndex, setOpenIndex] = useState(0); // First FAQ opened by default
-  const navigate = useNavigate();
+const FAQs = () => {
+  const [darkMode, setDarkMode] = useState(false);
+  const [openIndex, setOpenIndex] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const toggleDarkMode = () => setDarkMode(!darkMode);
+  const toggleFAQ = (index) => setOpenIndex(openIndex === index ? null : index);
 
   const faqs = [
-    {
-      question: "How do I book a car?",
-      answer: "To book a car, simply browse our listings, select a car, and complete the booking form with your details.",
-    },
-    {
-      question: "What are the payment options?",
-      answer: "We accept credit/debit cards, UPI, and PayPal for secure and convenient transactions.",
-    },
-    {
-      question: "Can I cancel my booking?",
-      answer: "Yes, you can cancel your booking up to 24 hours before the scheduled pick-up time for a full refund.",
-    },
-    {
-      question: "Are there any age restrictions for renting?",
-      answer: "Yes, you must be at least 21 years old with a valid driving license to rent a car.",
-    },
-    {
-      question: "Is insurance included in the rental?",
-      answer: "Yes, all our cars come with basic insurance. You can also opt for additional coverage.",
-    },
+    { question: "How can I book a car?", answer: "You can book a car through our website by selecting your preferred vehicle and completing the booking process." },
+    { question: "What documents are required?", answer: "You need to provide a valid driving license and a government-issued ID for verification." },
+    { question: "Is there a deposit required?", answer: "Yes, a refundable security deposit is required at the time of booking." },
+    { question: "Do you offer long-term rentals?", answer: "Yes, we offer flexible long-term rental plans at discounted rates." },
+    { question: "What payment methods are accepted?", answer: "We accept credit/debit cards, PayPal, and online bank transfers." },
   ];
 
-  const toggleFAQ = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
-  const styles = {
-    container: {
-      minHeight: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: "20px",
-      fontFamily: "Arial, sans-serif",
-      textAlign: "center",
-      backgroundImage: "url('/logo.jpeg')",
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-      backgroundRepeat: "no-repeat",
-      backgroundAttachment: "fixed",
-    },
-    contentWrapper: {
-      backgroundColor: "rgba(255, 255, 255, 0.85)",
-      padding: "30px",
-      borderRadius: "10px",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-      maxWidth: "700px",
-      width: "100%",
-    },
-    heading: {
-      fontSize: "28px",
-      marginBottom: "20px",
-      color: "black",
-    },
-    faqItem: {
-      borderBottom: "1px solid #ddd",
-      padding: "10px 0",
-    },
-    question: {
-      fontSize: "18px",
-      fontWeight: "bold",
-      cursor: "pointer",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      padding: "15px",
-      background: "black",
-      color: "white",
-      borderRadius: "5px",
-      transition: "0.3s",
-    },
-    answer: {
-      padding: "10px",
-      fontSize: "16px",
-      background: "#f8f9fa",
-      borderRadius: "5px",
-      marginTop: "5px",
-    },
-    icon: {
-      fontSize: "20px",
-    },
-    button: {
-      marginTop: "20px",
-      padding: "10px 20px",
-      fontSize: "16px",
-      backgroundColor: "#007bff",
-      color: "white",
-      border: "none",
-      borderRadius: "5px",
-      cursor: "pointer",
-      transition: "0.3s",
-    },
-    buttonHover: {
-      backgroundColor: "#0056b3",
-    },
-  };
+  // Filter FAQs based on search query
+  const filteredFAQs = faqs.filter((faq) =>
+    faq.question.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <>
-      <Header /> {/* Adding Header Component */}
-
-      <div style={styles.container}>
-        <div style={styles.contentWrapper}>
-          <h2 style={styles.heading}>Frequently Asked Questions</h2>
-          {faqs.map((faq, index) => (
-            <div key={index} style={styles.faqItem}>
-              <div style={styles.question} onClick={() => toggleFAQ(index)}>
-                {faq.question}
-                <span style={styles.icon}>{openIndex === index ? "−" : "+"}</span>
-              </div>
-              {openIndex === index && <p style={styles.answer}>{faq.answer}</p>}
-            </div>
-          ))}
-
-          {/* Back to Home Button */}
-          <button
-            style={styles.button}
-            onMouseOver={(e) => (e.target.style.backgroundColor = styles.buttonHover.backgroundColor)}
-            onMouseOut={(e) => (e.target.style.backgroundColor = styles.button.backgroundColor)}
-            onClick={() => navigate("/")}
-          >
-            Back to Home
+      <Header />
+      <div style={darkMode ? styles.darkContainer : styles.container}>
+        {/* Header & Dark Mode Toggle */}
+        <div style={styles.headerSection}>
+          <h1 style={styles.heading}>Frequently Asked Questions</h1>
+          <button onClick={toggleDarkMode} style={styles.toggleBtn}>
+            {darkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
           </button>
         </div>
-      </div>
 
-      <Footer /> {/* Adding Footer Component */}
+        {/* Search Bar */}
+        <input
+          type="text"
+          placeholder="🔍 Search for a question..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={darkMode ? styles.darkSearchBar : styles.searchBar}
+        />
+
+        {/* FAQ List */}
+        <div style={styles.content}>
+          {filteredFAQs.length > 0 ? (
+            filteredFAQs.map((faq, index) => (
+              <div
+                key={index}
+                style={{
+                  ...styles.faqItem,
+                  ...(darkMode ? styles.darkFaqItem : {}),
+                }}
+                onClick={() => toggleFAQ(index)}
+              >
+                <div style={styles.faqHeader}>
+                  <h3 style={styles.faqQuestion}>{faq.question}</h3>
+                  <span style={styles.icon}>{openIndex === index ? "−" : "+"}</span>
+                </div>
+                <div
+                  style={{
+                    ...styles.faqAnswerContainer,
+                    maxHeight: openIndex === index ? "200px" : "0",
+                    opacity: openIndex === index ? "1" : "0",
+                    padding: openIndex === index ? "10px" : "0",
+                  }}
+                >
+                  <p style={darkMode ? styles.darkFaqAnswer : styles.faqAnswer}>
+                    {faq.answer}
+                  </p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p style={styles.noResults}>❌ No results found!</p>
+          )}
+        </div>
+      </div>
+      <Footer />
     </>
   );
 };
 
-export default FAQ;
+// Improved CSS
+const styles = {
+  container: {
+    textAlign: "center",
+    padding: "50px",
+    backgroundColor: "#f8f9fa",
+    minHeight: "100vh",
+    transition: "background 0.3s ease",
+    color: "#333",
+  },
+  darkContainer: {
+    textAlign: "center",
+    padding: "50px",
+    backgroundColor: "#121212",
+    color: "#f1f1f1",
+    minHeight: "100vh",
+    transition: "background 0.3s ease",
+  },
+  headerSection: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    maxWidth: "900px",
+    margin: "auto",
+  },
+  heading: {
+    fontSize: "2.5rem",
+    fontWeight: "bold",
+  },
+  toggleBtn: {
+    padding: "10px 20px",
+    border: "none",
+    background: "#007bff",
+    color: "white",
+    cursor: "pointer",
+    borderRadius: "5px",
+    fontSize: "1rem",
+    transition: "0.3s ease",
+  },
+  searchBar: {
+    width: "80%",
+    maxWidth: "600px",
+    padding: "12px",
+    fontSize: "1rem",
+    border: "2px solid #ccc",
+    borderRadius: "8px",
+    margin: "20px auto",
+    display: "block",
+    backgroundColor: "#fff",
+    color: "#333",
+  },
+  darkSearchBar: {
+    width: "80%",
+    maxWidth: "600px",
+    padding: "12px",
+    fontSize: "1rem",
+    border: "2px solid #555",
+    borderRadius: "8px",
+    margin: "20px auto",
+    display: "block",
+    backgroundColor: "#1e1e1e",
+    color: "#fff",
+  },
+  content: {
+    maxWidth: "800px",
+    margin: "auto",
+    textAlign: "left",
+  },
+  faqItem: {
+    marginBottom: "15px",
+    backgroundColor: "#ffffff",
+    borderRadius: "8px",
+    padding: "10px 15px",
+    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+    cursor: "pointer",
+    transition: "transform 0.2s ease",
+  },
+  darkFaqItem: {
+    backgroundColor: "#1e1e1e",
+    color: "#f1f1f1",
+    boxShadow: "0px 4px 10px rgba(255, 255, 255, 0.1)",
+  },
+  faqHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    cursor: "pointer",
+    padding: "10px",
+    fontSize: "1.2rem",
+    fontWeight: "bold",
+  },
+  faqQuestion: {
+    fontSize: "1.2rem",
+    fontWeight: "bold",
+  },
+  faqAnswerContainer: {
+    overflow: "hidden",
+    transition: "max-height 0.5s ease, opacity 0.3s ease",
+    padding: "0 15px",
+  },
+  faqAnswer: {
+    fontSize: "1rem",
+    color: "#333",
+    lineHeight: "1.5",
+  },
+  darkFaqAnswer: {
+    fontSize: "1rem",
+    color: "#f1f1f1",
+    lineHeight: "1.5",
+  },
+  icon: {
+    fontSize: "1.5rem",
+    fontWeight: "bold",
+    color: "#007bff",
+    transition: "0.3s ease",
+  },
+  noResults: {
+    fontSize: "1.2rem",
+    fontWeight: "bold",
+    color: "red",
+    textAlign: "center",
+    marginTop: "20px",
+  },
+};
 
-
-
-
-
-
-
-
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import Sidebar from "./Sidebar";
-
-// export default function PostVehicle() {
-//   const navigate = useNavigate();
-//   const [vehicle, setVehicle] = useState({
-//     title: "",
-//     brand: "",
-//     overview: "",
-//     price: "",
-//     modelYear: "",
-//     seatingCapacity: "",
-//     fuelType: "",
-//     images: [],
-//     accessories: []
-//   });
-
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState(null);
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setVehicle({ ...vehicle, [name]: value });
-//   };
-
-//   const handleFileChange = (e) => {
-//     setVehicle({ ...vehicle, images: [...vehicle.images, ...e.target.files] });
-//   };
-
-//   const handleAccessoryChange = (accessory) => {
-//     setVehicle((prev) => ({
-//       ...prev,
-//       accessories: prev.accessories.includes(accessory)
-//         ? prev.accessories.filter((item) => item !== accessory)
-//         : [...prev.accessories, accessory]
-//     }));
-//   };
-
-//   const handleSaveChanges = async () => {
-//     setLoading(true);
-//     setError(null);
-
-//     const formData = new FormData();
-//     Object.keys(vehicle).forEach((key) => {
-//       if (key === "images") {
-//         vehicle.images.forEach((img) => formData.append("images", img));
-//       } else if (key === "accessories") {
-//         formData.append("accessories", JSON.stringify(vehicle.accessories));
-//       } else {
-//         formData.append(key, vehicle[key]);
-//       }
-//     });
-
-//     try {
-//       const response = await fetch("http://localhost:3200/api/car", {
-//         method: "POST",
-//         body: formData
-//       });
-
-//       if (!response.ok) {
-//         throw new Error("Failed to save vehicle data");
-//       }
-
-//       alert("Vehicle posted successfully!");
-//       navigate("/");
-//     } catch (err) {
-//       setError(err.message);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const accessoriesList = [
-//     "Air Conditioner", "Power Steering", "CD Player", "Power Door Locks",
-//     "Driver Airbag", "Central Locking", "AntiLock Braking System",
-//     "Passenger Airbag", "Crash Sensor", "Brake Assist",
-//     "Power Windows", "Leather Seats"
-//   ];
-
-//   return (
-//     <div style={{ display: "flex", fontFamily: "Arial, sans-serif", padding: "0" }}>
-//       <Sidebar />
-//       <div style={{ width: "100%", padding: "24px", maxWidth: "800px", margin: "auto" }}>
-//         <h1 style={{ fontSize: "24px", fontWeight: "bold", textAlign: "center", margin: "0 0 20px 0" }}>Post A Vehicle</h1>
-//         <div style={{ background: "#fff", padding: "20px", borderRadius: "8px", boxShadow: "0 2px 10px rgba(0,0,0,0.1)" }}>
-//           <input type="text" name="title" placeholder="Vehicle Title" value={vehicle.title} onChange={handleChange} 
-//             style={styles.input} />
-          
-//           <select name="brand" value={vehicle.brand} onChange={handleChange} style={styles.input}>
-//             <option value="">Select Brand</option>
-//             {["Toyota", "Honda", "Ford", "BMW", "Mercedes", "Audi", "Chevrolet", "Hyundai", "Nissan", "Tesla", "Mahindra"].map(brand => (
-//               <option key={brand} value={brand}>{brand}</option>
-//             ))}
-//           </select>
-
-//           <textarea name="overview" placeholder="Vehicle Overview" value={vehicle.overview} onChange={handleChange} 
-//             style={styles.textarea} />
-          
-//           <input type="text" name="price" placeholder="Price Per Day (USD)" value={vehicle.price} onChange={handleChange} 
-//             style={styles.input} />
-          
-//           <input type="text" name="modelYear" placeholder="Model Year" value={vehicle.modelYear} onChange={handleChange} 
-//             style={styles.input} />
-          
-//           <input type="text" name="seatingCapacity" placeholder="Seating Capacity" value={vehicle.seatingCapacity} onChange={handleChange} 
-//             style={styles.input} />
-          
-//           <input type="text" name="fuelType" placeholder="Fuel Type" value={vehicle.fuelType} onChange={handleChange} 
-//             style={styles.input} />
-          
-//           <div style={{ marginBottom: "16px" }}>
-//             <h3>Upload Images</h3>
-//             <input type="file" multiple onChange={handleFileChange} style={styles.fileInput} />
-//           </div>
-
-//           <h3>Accessories</h3>
-//           <div style={styles.accessoriesGrid}>
-//             {accessoriesList.map((accessory) => (
-//               <label key={accessory} style={styles.label}>
-//                 <input type="checkbox" checked={vehicle.accessories.includes(accessory)} onChange={() => handleAccessoryChange(accessory)} />
-//                 {accessory}
-//               </label>
-//             ))}
-//           </div>
-
-//           {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
-
-//           <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-//             <button style={styles.cancelButton}>Cancel</button>
-//             <button style={styles.saveButton} onClick={handleSaveChanges} disabled={loading}>
-//               {loading ? "Saving..." : "Save Changes"}
-//             </button>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-// const styles = {
-//   input: {
-//     width: "100%",
-//     padding: "10px",
-//     marginBottom: "10px",
-//     border: "1px solid #ccc",
-//     borderRadius: "4px",
-//     fontSize: "16px"
-//   },
-//   textarea: {
-//     width: "100%",
-//     padding: "10px",
-//     marginBottom: "10px",
-//     border: "1px solid #ccc",
-//     borderRadius: "4px",
-//     fontSize: "16px",
-//     height: "100px"
-//   },
-//   fileInput: {
-//     width: "100%",
-//     marginBottom: "10px"
-//   },
-//   accessoriesGrid: {
-//     display: "grid",
-//     gridTemplateColumns: "repeat(2, 1fr)",
-//     gap: "10px",
-//     marginBottom: "10px"
-//   },
-//   label: {
-//     display: "flex",
-//     alignItems: "center",
-//     gap: "5px"
-//   },
-//   cancelButton: {
-//     flex: 1,
-//     padding: "10px",
-//     background: "#ccc",
-//     border: "none",
-//     borderRadius: "4px",
-//     fontSize: "16px",
-//     cursor: "pointer"
-//   },
-//   saveButton: {
-//     flex: 1,
-//     padding: "10px",
-//     background: "#28a745",
-//     color: "#fff",
-//     border: "none",
-//     borderRadius: "4px",
-//     fontSize: "16px",
-//     cursor: "pointer"
-//   }
-// };
-
+export default FAQs;

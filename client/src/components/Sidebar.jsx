@@ -66,11 +66,7 @@ const AdminDashboard = () => {
               Bookings
             </li>
             <li onClick={() => navigate("/testimonials")}>Manage Testimonials</li>
-            <li onClick={() => navigate("/queries")}>Manage Queries</li>
             <li onClick={() => navigate("/users")}>Reg Users</li>
-            <li onClick={() => navigate("/pages")}>Manage Pages</li>
-            <li onClick={() => navigate("/contact-info")}>Update Contact Info</li>
-            <li onClick={() => navigate("/subscribers")}>Manage Subscribers</li>
             <li onClick={() => navigate("/")}>Log Out</li>
 
           </ul>
@@ -88,53 +84,110 @@ const styles = `
   height: 100vh;
 }
 
+/* Sidebar */
 .sidebar {
   width: 250px;
-  background-color: #1a202c;
-  color: white;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
+  background: linear-gradient(180deg, #1e1e2f, #2e2e3e);
+  padding: 25px 20px;
+  color: #ecf0f1;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .sidebar h2 {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 20px;
+  text-align: center;
+  font-size: 26px;
+  color: #f1c40f;
+  margin-bottom: 35px;
+  letter-spacing: 1px;
 }
 
 .sidebar nav ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
 }
 
 .sidebar nav ul li {
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  font-size: 17px;
+  border-radius: 8px;
   transition: background 0.3s;
+  cursor: pointer;
 }
 
 .sidebar nav ul li:hover {
-  background: #2d3748;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-.main-content {
-  flex: 1;
-  padding: 20px;
-  background: #f3f4f6;
+.sidebar nav ul li::before {
+  content: "•";
+  font-size: 20px;
+  color: #f39c12;
 }
+
+/* Dropdown Menu */
+.sidebar nav ul .dropdown div {
+  justify-content: space-between;
+}
+
+.sidebar nav ul .dropdown-menu {
+  padding-left: 25px;
+  display: none;
+}
+
+.sidebar nav ul li:hover .dropdown-menu {
+  display: block;
+}
+
+/* Header */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #2d3748;
-  color: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 25px 30px;
+  background: linear-gradient(135deg, #3a3a60, #5f72bd);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease;
 }
 
+.header h1 {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.profile-label {
+  font-size: 18px;
+  color: #ecf0f1;
+}
+
+.profile-pic {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-left: 12px;
+  border: 2px solid #f1c40f;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.profile-pic:hover {
+  transform: scale(1.1);
+}
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

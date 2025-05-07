@@ -108,7 +108,8 @@ const ManageVehicles = () => {
                   <td>{vehicle.fuelType}</td>
                   <td>{vehicle.modelYear}</td>
                   <td>
-                    <button className="edit-button">✏️</button>
+                  <button className="edit-button" onClick={() => navigate(`/editvehicle/${vehicle._id}`)}>✏️</button>
+
                     <button className="delete-button" onClick={() => handleDelete(vehicle._id)}>❌</button>
                   </td>
                 </tr>

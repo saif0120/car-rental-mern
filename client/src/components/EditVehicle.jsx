@@ -21,7 +21,7 @@ const EditVehicle = () => {
   useEffect(() => {
     const fetchVehicle = async () => {
       try {
-        const res = await axios.get(`http://localhost:3200/api/car/${id}`);
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/vehicles`);
         setVehicle(res.data);
         setImagePreview(res.data.image); // initial image preview
       } catch (err) {
@@ -31,7 +31,7 @@ const EditVehicle = () => {
 
     const fetchBrands = async () => {
       try {
-        const res = await axios.get("http://localhost:3200/api/brands");
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/vehicles`);
         setBrands(res.data);
       } catch (err) {
         console.error("Error fetching brands:", err);

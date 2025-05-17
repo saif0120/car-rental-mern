@@ -8,9 +8,8 @@ const RegisterUsers = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:3200/api/users", {
-          withCredentials: true,
-        });
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/vehicles`);
+
         setUsers(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);

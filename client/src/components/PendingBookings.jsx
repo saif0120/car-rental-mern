@@ -8,7 +8,8 @@ const PendingBookings = () => {
   useEffect(() => {
     const fetchPendingBookings = async () => {
       try {
-        const response = await axios.get("http://localhost:3200/api/bookings?status=pending");
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/vehicles`);
+
         setBookings(response.data);
       } catch (error) {
         console.error("Error fetching pending bookings:", error);

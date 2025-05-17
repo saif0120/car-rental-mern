@@ -10,9 +10,8 @@ const MyBookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const response = await axios.get("http://localhost:3200/api/mybookings", {
-          withCredentials: true, // Send session cookies
-        });
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/vehicles`);
+
 
         console.log("API Response:", response.data);
         setBookings(response.data);

@@ -154,7 +154,8 @@ const SatisfiedCustomers = () => {
     useEffect(() => {
         const fetchTestimonials = async () => {
             try {
-                const res = await axios.get('http://localhost:3200/api/testimonials', { withCredentials: true });
+                const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/vehicles`);
+
                 if (res.data.success && Array.isArray(res.data.testimonials)) {
                     setTestimonials(res.data.testimonials);
                 } else {

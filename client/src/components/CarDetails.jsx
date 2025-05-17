@@ -171,11 +171,11 @@ const CarDetails = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:3200/api/car/${id}`)
+    axios.get(`${process.env.REACT_APP_API_URL}/api/vehicles`)
       .then((res) => setCar(res.data))
       .catch((err) => console.log("Error fetching car:", err.response?.data || err.message));
 
-    axios.get("http://localhost:3200/api/auth/session", { withCredentials: true })
+      axios.get(`${process.env.REACT_APP_API_URL}/api/vehicles`)
       .then(res => setUser(res.data.user))
       .catch(() => setUser(null));
   }, [id]);

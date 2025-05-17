@@ -14,7 +14,7 @@ const ManageVehicles = () => {
   useEffect(() => {
     const fetchVehicles = async () => {
       try {
-        const response = await axios.get("http://localhost:3200/api/cars");
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/vehicles`);
         setVehicles(response.data);
       } catch (error) {
         console.error("Error fetching vehicles:", error);

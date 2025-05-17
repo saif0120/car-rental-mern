@@ -86,7 +86,7 @@ const ManageBrands = () => {
 
   const fetchBrands = async () => {
     try {
-      const response = await axios.get("http://localhost:3200/api/brands");
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/vehicles`);
       setBrands(response.data);
     } catch (error) {
       console.error("Error fetching brands:", error);

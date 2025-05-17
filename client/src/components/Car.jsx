@@ -18,9 +18,9 @@ const Car = () => {
     const fetchData = async () => {
       try {
         const [carRes, brandRes, fuelRes] = await Promise.all([
-          axios.get("http://localhost:3200/api/car"),
-          axios.get("http://localhost:3200/api/brands"),
-          axios.get("http://localhost:3200/api/fuelTypes"),
+          axios.get(`${process.env.REACT_APP_API_URL}/api/vehicles`),
+          axios.get(`${process.env.REACT_APP_API_URL}/api/vehicles`),
+          axios.get(`${process.env.REACT_APP_API_URL}/api/vehicles`),
         ]);
         setCars(carRes.data);
         setBrands(brandRes.data);

@@ -8,9 +8,7 @@ const CarList = () => {
   const isLoggedIn = !!localStorage.getItem("token"); // Check if user is logged in
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3200/api/cars")
-      .then((response) => setCars(response.data))
+    axios.get(`${process.env.REACT_APP_API_URL}/api/vehicles`) .then((response) => setCars(response.data))
       .catch((error) => console.error("Error fetching cars:", error));
   }, []);
 
